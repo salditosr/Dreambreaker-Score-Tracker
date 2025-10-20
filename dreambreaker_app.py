@@ -99,11 +99,9 @@ if st.session_state.page == 'setup':
         _, score_input, _ = st.columns([0.6, 0.2, 0.2])
         with score_input:
             target_score = st.number_input("", min_value=1, max_value=100, value=21, step=1)
-        # MADE CHANGE TO SEE IF IT FIXED spacing text align changed to Left from Center
-        st.markdown("<p style='text-align: Left; font-size: 0.7em; margin: -15px 0 5px 0; line-height: 1;'>Score to Play To</p>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; font-size: 0.7em; margin: -15px 0 5px 0; line-height: 1;'>Score to Play To</p>", unsafe_allow_html=True)
     with settings_col2:
-        st.markdown("<p style='font-size: 0.8em; margin-bottom: 5px;'>Who Serves First?</p>", unsafe_allow_html=True)
-        serving_first = st.radio("", ["Select...", "Home", "Away"], horizontal=False, label_visibility="collapsed")
+        serving_first = st.selectbox("Who Serves First?", ["Select...", "Home", "Away"])
     
     st.markdown("<hr style='margin: 0.3rem 0;'>", unsafe_allow_html=True)
     
