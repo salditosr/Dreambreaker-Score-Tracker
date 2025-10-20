@@ -69,8 +69,8 @@ st.set_page_config(page_title="MLP Dreambreaker Calculator", layout="wide")
 
 if st.session_state.page == 'setup':
     # Setup Page
-    st.title("🏓 MLP Dreambreaker Calculator")
-    st.markdown("---")
+    st.markdown("<h1 style='font-size: 1.5rem; margin: 0.3rem 0; line-height: 1.2;'>🏓 MLP Dreambreaker Calculator</h1>", unsafe_allow_html=True)
+    st.markdown("<hr style='margin: 0.3rem 0;'>", unsafe_allow_html=True)
     
     # Add JavaScript for Enter key navigation
     st.markdown("""
@@ -92,23 +92,24 @@ if st.session_state.page == 'setup':
     """, unsafe_allow_html=True)
     
     # Game Settings
-    st.subheader("⚙️ Game Settings")
+    st.markdown("<h3 style='font-size: 1rem; margin: 0.3rem 0;'>⚙️ Game Settings</h3>", unsafe_allow_html=True)
     settings_col1, settings_col2 = st.columns(2)
     with settings_col1:
         # Make score input tiny - 20% width
         _, score_input, _ = st.columns([0.6, 0.2, 0.2])
         with score_input:
             target_score = st.number_input("", min_value=1, max_value=100, value=21, step=1)
-        st.markdown("<p style='text-align: center; font-size: 0.8em; margin-top: -10px;'>Score to Play To</p>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; font-size: 0.7em; margin: -15px 0 5px 0; line-height: 1;'>Score to Play To</p>", unsafe_allow_html=True)
     with settings_col2:
-        serving_first = st.radio("Who Serves First?", ["Select...", "Home", "Away"], horizontal=False)
+        st.markdown("<p style='font-size: 0.8em; margin-bottom: 5px;'>Who Serves First?</p>", unsafe_allow_html=True)
+        serving_first = st.radio("", ["Select...", "Home", "Away"], horizontal=False, label_visibility="collapsed")
     
-    st.markdown("---")
+    st.markdown("<hr style='margin: 0.3rem 0;'>", unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.header("Home Team")
+        st.markdown("<h2 style='font-size: 1.3rem; margin: 0.3rem 0;'>Home Team</h2>", unsafe_allow_html=True)
         # NO subheader, just inputs
         _, input_col, _ = st.columns([0.25, 0.5, 0.25])
         with input_col:
@@ -118,7 +119,7 @@ if st.session_state.page == 'setup':
             team1_player4 = st.text_input("", key="t1p4", placeholder="Player 4")
     
     with col2:
-        st.header("Away Team")
+        st.markdown("<h2 style='font-size: 1.3rem; margin: 0.3rem 0;'>Away Team</h2>", unsafe_allow_html=True)
         # NO subheader, just inputs
         _, input_col, _ = st.columns([0.25, 0.5, 0.25])
         with input_col:
@@ -127,7 +128,7 @@ if st.session_state.page == 'setup':
             team2_player3 = st.text_input("", key="t2p3", placeholder="Player 3")
             team2_player4 = st.text_input("", key="t2p4", placeholder="Player 4")
     
-    st.markdown("---")
+    st.markdown("<hr style='margin: 0.5rem 0;'>", unsafe_allow_html=True)
     col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
     with col_btn2:
         if st.button("🚀 START", use_container_width=True, type="primary"):
@@ -284,6 +285,42 @@ st.markdown("""
         font-size: 32px !important;
     }
     
+    /* Make labels and text smaller on mobile */
+    @media only screen and (max-width: 768px) {
+        /* Reduce all text/label spacing on setup page */
+        label {
+            margin-bottom: 0.2rem !important;
+            font-size: 0.9rem !important;
+        }
+        
+        /* Compact radio buttons */
+        .stRadio {
+            margin-top: 0 !important;
+            margin-bottom: 0.3rem !important;
+        }
+        
+        .stRadio > div {
+            gap: 0.2rem !important;
+        }
+        
+        /* Compact number input */
+        .stNumberInput {
+            margin-bottom: 0.3rem !important;
+        }
+        
+        /* Reduce header spacing */
+        h1, h2, h3 {
+            margin-top: 0.3rem !important;
+            margin-bottom: 0.3rem !important;
+        }
+        
+        /* Reduce subheader spacing */
+        .stMarkdown h2, .stMarkdown h3 {
+            margin-top: 0.2rem !important;
+            margin-bottom: 0.2rem !important;
+        }
+    }
+    
     /* Reduce default Streamlit spacing */
     .block-container {
         padding-top: 1rem;
@@ -333,6 +370,34 @@ st.markdown("""
             padding-right: 0 !important;
         }
         
+        /* Reduce ALL element spacing on setup page */
+        .element-container {
+            margin-bottom: 0 !important;
+            margin-top: 0 !important;
+        }
+        
+        /* Compact form elements */
+        .stTextInput, .stNumberInput {
+            margin-bottom: 0.3rem !important;
+            margin-top: 0 !important;
+        }
+        
+        /* Reduce radio button spacing */
+        .stRadio {
+            margin: 0.2rem 0 !important;
+        }
+        
+        .stRadio label {
+            margin: 0.1rem 0 !important;
+            padding: 0.2rem 0 !important;
+        }
+        
+        /* Make dividers thinner */
+        hr {
+            margin: 0.3rem 0 !important;
+            height: 1px !important;
+        }
+        
         /* Adjust headings for mobile - make smaller */
         h1 {
             font-size: 2.5rem !important;
@@ -342,12 +407,25 @@ st.markdown("""
         }
         h2 {
             font-size: 1.2rem !important;
-            margin: 0 !important;
-            line-height: 1 !important;
+            margin: 0.2rem 0 !important;
+            line-height: 1.1 !important;
+            padding: 0 !important;
         }
         h3 {
             font-size: 0.8rem !important;
-            margin: 0 !important;
+            margin: 0.2rem 0 !important;
+            padding: 0 !important;
+        }
+        
+        /* Make subheaders tiny */
+        .stMarkdown h2 {
+            font-size: 1rem !important;
+            margin: 0.1rem 0 !important;
+        }
+        
+        .stMarkdown h3 {
+            font-size: 0.85rem !important;
+            margin: 0.1rem 0 !important;
         }
         
         /* Mobile buttons */
