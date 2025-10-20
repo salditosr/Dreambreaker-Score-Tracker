@@ -106,18 +106,24 @@ if st.session_state.page == 'setup':
     with col1:
         st.header("Home Team")
         st.subheader("Players")
-        team1_player1 = st.text_input("Player 1", key="t1p1", placeholder="Enter player name")
-        team1_player2 = st.text_input("Player 2", key="t1p2", placeholder="Enter player name")
-        team1_player3 = st.text_input("Player 3", key="t1p3", placeholder="Enter player name")
-        team1_player4 = st.text_input("Player 4", key="t1p4", placeholder="Enter player name")
+        # Center inputs with columns
+        _, input_col, _ = st.columns([0.25, 0.5, 0.25])
+        with input_col:
+            team1_player1 = st.text_input("Player 1", key="t1p1", placeholder="Player 1")
+            team1_player2 = st.text_input("Player 2", key="t1p2", placeholder="Player 2")
+            team1_player3 = st.text_input("Player 3", key="t1p3", placeholder="Player 3")
+            team1_player4 = st.text_input("Player 4", key="t1p4", placeholder="Player 4")
     
     with col2:
         st.header("Away Team")
         st.subheader("Players")
-        team2_player1 = st.text_input("Player 1", key="t2p1", placeholder="Enter player name")
-        team2_player2 = st.text_input("Player 2", key="t2p2", placeholder="Enter player name")
-        team2_player3 = st.text_input("Player 3", key="t2p3", placeholder="Enter player name")
-        team2_player4 = st.text_input("Player 4", key="t2p4", placeholder="Enter player name")
+        # Center inputs with columns
+        _, input_col, _ = st.columns([0.25, 0.5, 0.25])
+        with input_col:
+            team2_player1 = st.text_input("Player 1", key="t2p1", placeholder="Player 1")
+            team2_player2 = st.text_input("Player 2", key="t2p2", placeholder="Player 2")
+            team2_player3 = st.text_input("Player 3", key="t2p3", placeholder="Player 3")
+            team2_player4 = st.text_input("Player 4", key="t2p4", placeholder="Player 4")
     
     st.markdown("---")
     col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
@@ -141,7 +147,7 @@ if st.session_state.page == 'setup':
                 st.rerun()
 
 elif st.session_state.page == 'game':
-    # Game Page - Side-by-side layout with columns
+    # Game Page - Condensed layout with larger text
     col_title, col_reset = st.columns([3, 1])
     with col_title:
         st.markdown("<h3 style='margin: 0; font-size: 1rem;'>🏓 MLP Dreambreaker</h3>", unsafe_allow_html=True)
@@ -150,50 +156,53 @@ elif st.session_state.page == 'game':
             reset_game()
             st.rerun()
     
-    # Home and Away headers with scores - side by side
-    score_col1, vs_col, score_col2 = st.columns([2, 1, 2])
+    # Home and Away headers with scores - much more condensed
+    score_col1, vs_col, score_col2 = st.columns([3, 0.5, 3])
     
     current_idx = st.session_state.current_player_index
     
+    # Player change indicator color
+    player_bg_color = ["#1E3A8A", "#15803D", "#9333EA", "#DC2626"][current_idx]  # Blue, Green, Purple, Red for rounds 1-4
+    
     with score_col1:
-        # Home team
-        st.markdown(f"<div style='text-align: center;'><h2 style='margin: 0; font-size: 0.9rem;'>{st.session_state.stored_team1_name}</h2></div>", unsafe_allow_html=True)
+        # Home team - double text size
+        st.markdown(f"<div style='text-align: center;'><h2 style='margin: 0; font-size: 1.8rem;'>{st.session_state.stored_team1_name}</h2></div>", unsafe_allow_html=True)
         
         # Serving indicator for Home
         if st.session_state.serving_team == 1:
             side = "R" if st.session_state.team1_score % 2 == 0 else "L"
-            st.markdown(f"<div style='text-align: center; color: #FF4B4B; font-size: 0.65em; margin: 3px 0;'>🔴 SERVE ({side})</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='text-align: center; color: #FF4B4B; font-size: 1.3em; margin: 3px 0;'>🔴 SERVE ({side})</div>", unsafe_allow_html=True)
         else:
-            st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='height: 35px;'></div>", unsafe_allow_html=True)
         
-        # Score
-        st.markdown(f"<h1 style='text-align: center; margin: 5px 0; font-size: 2rem;'>{st.session_state.team1_score}</h1>", unsafe_allow_html=True)
+        # Score - double size
+        st.markdown(f"<h1 style='text-align: center; margin: 5px 0; font-size: 4rem;'>{st.session_state.team1_score}</h1>", unsafe_allow_html=True)
     
     with vs_col:
-        st.markdown("<div style='text-align: center; margin-top: 25px;'><h2 style='font-size: 0.9rem;'>VS</h2></div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top: 50px;'><h2 style='font-size: 1.8rem;'>VS</h2></div>", unsafe_allow_html=True)
     
     with score_col2:
-        # Away team
-        st.markdown(f"<div style='text-align: center;'><h2 style='margin: 0; font-size: 0.9rem;'>{st.session_state.stored_team2_name}</h2></div>", unsafe_allow_html=True)
+        # Away team - double text size
+        st.markdown(f"<div style='text-align: center;'><h2 style='margin: 0; font-size: 1.8rem;'>{st.session_state.stored_team2_name}</h2></div>", unsafe_allow_html=True)
         
         # Serving indicator for Away
         if st.session_state.serving_team == 2:
             side = "R" if st.session_state.team2_score % 2 == 0 else "L"
-            st.markdown(f"<div style='text-align: center; color: #FF4B4B; font-size: 0.65em; margin: 3px 0;'>🔴 SERVE ({side})</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='text-align: center; color: #FF4B4B; font-size: 1.3em; margin: 3px 0;'>🔴 SERVE ({side})</div>", unsafe_allow_html=True)
         else:
-            st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='height: 35px;'></div>", unsafe_allow_html=True)
         
-        # Score
-        st.markdown(f"<h1 style='text-align: center; margin: 5px 0; font-size: 2rem;'>{st.session_state.team2_score}</h1>", unsafe_allow_html=True)
+        # Score - double size
+        st.markdown(f"<h1 style='text-align: center; margin: 5px 0; font-size: 4rem;'>{st.session_state.team2_score}</h1>", unsafe_allow_html=True)
     
-    # Player names - side by side
+    # Player names - side by side with background color indicator
     player_col1, player_col2 = st.columns(2)
     
     with player_col1:
-        st.markdown(f"<div style='text-align: center; font-size: 1.2em; font-weight: bold; margin: 8px 0;'>{st.session_state.team1_players[current_idx]}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='text-align: center; font-size: 2.4em; font-weight: bold; margin: 8px 0; padding: 15px; background-color: {player_bg_color}; border-radius: 10px; color: white;'>{st.session_state.team1_players[current_idx]}</div>", unsafe_allow_html=True)
     
     with player_col2:
-        st.markdown(f"<div style='text-align: center; font-size: 1.2em; font-weight: bold; margin: 8px 0;'>{st.session_state.team2_players[current_idx]}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='text-align: center; font-size: 2.4em; font-weight: bold; margin: 8px 0; padding: 15px; background-color: {player_bg_color}; border-radius: 10px; color: white;'>{st.session_state.team2_players[current_idx]}</div>", unsafe_allow_html=True)
     
     # Score buttons - narrower with better spacing
     btn_col_left, btn_col1, spacer, btn_col2, btn_col_right = st.columns([0.05, 0.425, 0.05, 0.425, 0.05])
@@ -218,7 +227,8 @@ elif st.session_state.page == 'game':
     with st.expander("📋 Schedule"):
         for i in range(4):
             status = "🟢" if i == current_idx else "⚪"
-            st.markdown(f"<small>{status} R{i+1}: {st.session_state.team1_players[i]} vs {st.session_state.team2_players[i]}</small>", unsafe_allow_html=True)
+            round_color = ["🔵", "🟢", "🟣", "🔴"][i]
+            st.markdown(f"<small>{status} {round_color} R{i+1}: {st.session_state.team1_players[i]} vs {st.session_state.team2_players[i]}</small>", unsafe_allow_html=True)
 
 elif st.session_state.page == 'winner':
     # Winner Page
@@ -268,6 +278,16 @@ st.markdown("""
         font-weight: bold;
     }
     
+    /* Larger input text on all screens */
+    input {
+        font-size: 32px !important;
+        padding: 1rem !important;
+    }
+    
+    input[type="number"] {
+        font-size: 32px !important;
+    }
+    
     /* Reduce default Streamlit spacing */
     .block-container {
         padding-top: 1rem;
@@ -281,32 +301,32 @@ st.markdown("""
             width: 50% !important;
             flex: 1 1 50% !important;
             min-width: 0 !important;
-            padding: 0.1rem !important;
+            padding: 0.05rem !important;
         }
         
         /* Ensure row stays horizontal */
         [data-testid="stHorizontalBlock"] {
             flex-wrap: nowrap !important;
-            gap: 0.2rem !important;
+            gap: 0.1rem !important;
         }
         
         /* Reduce padding and margins */
         .block-container {
-            padding-top: 0.3rem;
-            padding-bottom: 0.3rem;
-            padding-left: 0.3rem;
-            padding-right: 0.3rem;
+            padding-top: 0.2rem;
+            padding-bottom: 0.2rem;
+            padding-left: 0.2rem;
+            padding-right: 0.2rem;
         }
         
-        /* Compact headings - much smaller */
+        /* Adjust headings for mobile */
         h1 {
-            font-size: 2rem !important;
+            font-size: 3rem !important;
             margin: 0.1rem 0 !important;
             padding: 0 !important;
-            line-height: 1.2 !important;
+            line-height: 1.1 !important;
         }
         h2 {
-            font-size: 0.95rem !important;
+            font-size: 1.5rem !important;
             margin: 0.1rem 0 !important;
             line-height: 1.1 !important;
         }
@@ -315,10 +335,10 @@ st.markdown("""
             margin: 0.1rem 0 !important;
         }
         
-        /* Make buttons more compact */
+        /* Mobile buttons */
         .stButton>button {
             height: 3.1em !important;
-            font-size: 0.85em !important;
+            font-size: 0.9em !important;
             padding: 0.3em 0.3em !important;
             margin: 0 !important;
         }
@@ -328,10 +348,15 @@ st.markdown("""
             margin-bottom: 0.1rem !important;
         }
         
-        /* Smaller input fields */
+        /* Keep larger input fields on mobile */
         input {
-            font-size: 14px !important;
-            padding: 0.4rem !important;
+            font-size: 28px !important;
+            padding: 0.8rem !important;
+        }
+        
+        /* Larger number input */
+        input[type="number"] {
+            font-size: 28px !important;
         }
         
         /* Remove horizontal rules spacing */
@@ -350,31 +375,36 @@ st.markdown("""
             font-size: 0.7rem !important;
         }
         
-        /* Much smaller player names on portrait */
-        div[style*="font-size: 2em"] {
-            font-size: 1.1em !important;
-            margin: 8px 0 !important;
+        /* Adjust player name boxes for mobile */
+        div[style*="font-size: 2.4em"] {
+            font-size: 1.4em !important;
+            padding: 8px !important;
         }
         
-        /* Smaller serve indicator */
-        div[style*="font-size: 0.9em"] {
-            font-size: 0.7em !important;
+        /* Smaller serve indicator on mobile */
+        div[style*="font-size: 1.3em"] {
+            font-size: 0.8em !important;
         }
         
-        /* Compact the VS column */
-        div[style*="margin-top: 60px"] {
-            margin-top: 30px !important;
+        /* Adjust score size for mobile */
+        h1[style*="font-size: 4rem"] {
+            font-size: 2.5rem !important;
+        }
+        
+        /* Adjust team names for mobile */
+        h2[style*="font-size: 1.8rem"] {
+            font-size: 1.2rem !important;
         }
     }
     
     /* Very small phones - even more compact */
     @media only screen and (max-width: 480px) {
-        h1 {
-            font-size: 1.8rem !important;
+        h1[style*="font-size: 4rem"] {
+            font-size: 2rem !important;
         }
         
-        h2 {
-            font-size: 0.85rem !important;
+        h2[style*="font-size: 1.8rem"] {
+            font-size: 1rem !important;
         }
         
         .stButton>button {
@@ -383,8 +413,9 @@ st.markdown("""
             padding: 0.2em 0.2em !important;
         }
         
-        div[style*="font-size: 2em"] {
-            font-size: 1em !important;
+        div[style*="font-size: 2.4em"] {
+            font-size: 1.2em !important;
+            padding: 6px !important;
         }
     }
 </style>
