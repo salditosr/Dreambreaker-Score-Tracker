@@ -98,7 +98,7 @@ if st.session_state.page == 'setup':
         # Make score input tiny - 20% width
         _, score_input, _ = st.columns([0.6, 0.2, 0.2])
         with score_input:
-            target_score = st.number_input("", min_value=1, max_value=100, value=21, step=1)
+            target_score = st.number_input("", min_value=1, max_value=100, value=25, step=1)
         st.markdown("<p style='text-align: center; font-size: 0.7em; margin: -15px 0 5px 0; line-height: 1;'>Score to Play To</p>", unsafe_allow_html=True)
     with settings_col2:
         serving_first = st.selectbox("Who Serves First?", ["Select...", "Home", "Away"])
