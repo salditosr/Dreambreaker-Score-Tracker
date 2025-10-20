@@ -144,7 +144,7 @@ elif st.session_state.page == 'game':
     # Game Page - Side-by-side layout
     col_title, col_reset = st.columns([3, 1])
     with col_title:
-        st.markdown("### 🏓 MLP Dreambreaker")
+        st.markdown("<h3 style='margin: 0; font-size: 1rem;'>🏓 MLP Dreambreaker</h3>", unsafe_allow_html=True)
     with col_reset:
         if st.button("🔄", use_container_width=True):
             reset_game()
@@ -157,43 +157,43 @@ elif st.session_state.page == 'game':
     
     with score_col1:
         # Home team
-        st.markdown(f"<div style='text-align: center;'><h2 style='margin: 0;'>{st.session_state.stored_team1_name}</h2></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='text-align: center;'><h2 style='margin: 0; font-size: 0.9rem;'>{st.session_state.stored_team1_name}</h2></div>", unsafe_allow_html=True)
         
         # Serving indicator for Home
         if st.session_state.serving_team == 1:
             side = "R" if st.session_state.team1_score % 2 == 0 else "L"
-            st.markdown(f"<div style='text-align: center; color: #FF4B4B; font-size: 0.9em; margin: 5px 0;'>🔴 SERVE ({side})</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='text-align: center; color: #FF4B4B; font-size: 0.65em; margin: 3px 0;'>🔴 SERVE ({side})</div>", unsafe_allow_html=True)
         else:
-            st.markdown("<div style='height: 25px;'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
         
         # Score
-        st.markdown(f"<h1 style='text-align: center; margin: 10px 0; font-size: 3em;'>{st.session_state.team1_score}</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='text-align: center; margin: 5px 0; font-size: 2rem;'>{st.session_state.team1_score}</h1>", unsafe_allow_html=True)
     
     with vs_col:
-        st.markdown("<div style='text-align: center; margin-top: 60px;'><h2>VS</h2></div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; margin-top: 25px;'><h2 style='font-size: 0.9rem;'>VS</h2></div>", unsafe_allow_html=True)
     
     with score_col2:
         # Away team
-        st.markdown(f"<div style='text-align: center;'><h2 style='margin: 0;'>{st.session_state.stored_team2_name}</h2></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='text-align: center;'><h2 style='margin: 0; font-size: 0.9rem;'>{st.session_state.stored_team2_name}</h2></div>", unsafe_allow_html=True)
         
         # Serving indicator for Away
         if st.session_state.serving_team == 2:
             side = "R" if st.session_state.team2_score % 2 == 0 else "L"
-            st.markdown(f"<div style='text-align: center; color: #FF4B4B; font-size: 0.9em; margin: 5px 0;'>🔴 SERVE ({side})</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='text-align: center; color: #FF4B4B; font-size: 0.65em; margin: 3px 0;'>🔴 SERVE ({side})</div>", unsafe_allow_html=True)
         else:
-            st.markdown("<div style='height: 25px;'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
         
         # Score
-        st.markdown(f"<h1 style='text-align: center; margin: 10px 0; font-size: 3em;'>{st.session_state.team2_score}</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='text-align: center; margin: 5px 0; font-size: 2rem;'>{st.session_state.team2_score}</h1>", unsafe_allow_html=True)
     
     # Player names - side by side
     player_col1, player_col2 = st.columns(2)
     
     with player_col1:
-        st.markdown(f"<div style='text-align: center; font-size: 2em; font-weight: bold; margin: 20px 0;'>{st.session_state.team1_players[current_idx]}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='text-align: center; font-size: 1.2em; font-weight: bold; margin: 8px 0;'>{st.session_state.team1_players[current_idx]}</div>", unsafe_allow_html=True)
     
     with player_col2:
-        st.markdown(f"<div style='text-align: center; font-size: 2em; font-weight: bold; margin: 20px 0;'>{st.session_state.team2_players[current_idx]}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='text-align: center; font-size: 1.2em; font-weight: bold; margin: 8px 0;'>{st.session_state.team2_players[current_idx]}</div>", unsafe_allow_html=True)
     
     # Score buttons - side by side, smaller
     btn_col1, btn_col2 = st.columns(2)
