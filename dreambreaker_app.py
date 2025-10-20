@@ -141,59 +141,62 @@ if st.session_state.page == 'setup':
                 st.rerun()
 
 elif st.session_state.page == 'game':
-    # Game Page - Pure HTML layout for better mobile control
+    # Game Page - Side-by-side layout with columns
+    col_title, col_reset = st.columns([3, 1])
+    with col_title:
+        st.markdown("<h3 style='margin: 0; font-size: 1rem;'>🏓 MLP Dreambreaker</h3>", unsafe_allow_html=True)
+    with col_reset:
+        if st.button("🔄", use_container_width=True):
+            reset_game()
+            st.rerun()
+    
+    # Home and Away headers with scores - side by side
+    score_col1, vs_col, score_col2 = st.columns([2, 1, 2])
+    
     current_idx = st.session_state.current_player_index
     
-    # Determine serving info
-    home_serve = ""
-    away_serve = ""
-    if st.session_state.serving_team == 1:
-        side = "R" if st.session_state.team1_score % 2 == 0 else "L"
-        home_serve = f'<div style="color: #FF4B4B; font-size: 0.7em; margin: 2px 0;">🔴 SERVE ({side})</div>'
-    elif st.session_state.serving_team == 2:
-        side = "R" if st.session_state.team2_score % 2 == 0 else "L"
-        away_serve = f'<div style="color: #FF4B4B; font-size: 0.7em; margin: 2px 0;">🔴 SERVE ({side})</div>'
-    
-    # Pure HTML layout
-    st.markdown(f"""
-    <div style="padding: 5px; max-width: 100%;">
-        <!-- Header -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <div style="font-size: 0.9em; font-weight: bold;">🏓 MLP Dreambreaker</div>
-        </div>
+    with score_col1:
+        # Home team
+        st.markdown(f"<div style='text-align: center;'><h2 style='margin: 0; font-size: 0.9rem;'>{st.session_state.stored_team1_name}</h2></div>", unsafe_allow_html=True)
         
-        <!-- Scores Section -->
-        <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 5px; margin-bottom: 10px;">
-            <!-- Home -->
-            <div style="text-align: center;">
-                <div style="font-size: 0.85em; font-weight: bold; margin-bottom: 2px;">{st.session_state.stored_team1_name}</div>
-                {home_serve if home_serve else '<div style="height: 18px;"></div>'}
-                <div style="font-size: 2em; font-weight: bold; margin: 5px 0;">{st.session_state.team1_score}</div>
-            </div>
-            
-            <!-- VS -->
-            <div style="text-align: center; display: flex; align-items: center;">
-                <div style="font-size: 0.8em; font-weight: bold; padding: 0 5px;">VS</div>
-            </div>
-            
-            <!-- Away -->
-            <div style="text-align: center;">
-                <div style="font-size: 0.85em; font-weight: bold; margin-bottom: 2px;">{st.session_state.stored_team2_name}</div>
-                {away_serve if away_serve else '<div style="height: 18px;"></div>'}
-                <div style="font-size: 2em; font-weight: bold; margin: 5px 0;">{st.session_state.team2_score}</div>
-            </div>
-        </div>
+        # Serving indicator for Home
+        if st.session_state.serving_team == 1:
+            side = "R" if st.session_state.team1_score % 2 == 0 else "L"
+            st.markdown(f"<div style='text-align: center; color: #FF4B4B; font-size: 0.65em; margin: 3px 0;'>🔴 SERVE ({side})</div>", unsafe_allow_html=True)
+        else:
+            st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
         
-        <!-- Player Names -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0;">
-            <div style="text-align: center; font-size: 1.1em; font-weight: bold;">{st.session_state.team1_players[current_idx]}</div>
-            <div style="text-align: center; font-size: 1.1em; font-weight: bold;">{st.session_state.team2_players[current_idx]}</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+        # Score
+        st.markdown(f"<h1 style='text-align: center; margin: 5px 0; font-size: 2rem;'>{st.session_state.team1_score}</h1>", unsafe_allow_html=True)
     
-    # Buttons - narrower with spacing
-    btn_col1, spacer1, btn_col2 = st.columns([0.4, 0.2, 0.4])
+    with vs_col:
+        st.markdown("<div style='text-align: center; margin-top: 25px;'><h2 style='font-size: 0.9rem;'>VS</h2></div>", unsafe_allow_html=True)
+    
+    with score_col2:
+        # Away team
+        st.markdown(f"<div style='text-align: center;'><h2 style='margin: 0; font-size: 0.9rem;'>{st.session_state.stored_team2_name}</h2></div>", unsafe_allow_html=True)
+        
+        # Serving indicator for Away
+        if st.session_state.serving_team == 2:
+            side = "R" if st.session_state.team2_score % 2 == 0 else "L"
+            st.markdown(f"<div style='text-align: center; color: #FF4B4B; font-size: 0.65em; margin: 3px 0;'>🔴 SERVE ({side})</div>", unsafe_allow_html=True)
+        else:
+            st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+        
+        # Score
+        st.markdown(f"<h1 style='text-align: center; margin: 5px 0; font-size: 2rem;'>{st.session_state.team2_score}</h1>", unsafe_allow_html=True)
+    
+    # Player names - side by side
+    player_col1, player_col2 = st.columns(2)
+    
+    with player_col1:
+        st.markdown(f"<div style='text-align: center; font-size: 1.2em; font-weight: bold; margin: 8px 0;'>{st.session_state.team1_players[current_idx]}</div>", unsafe_allow_html=True)
+    
+    with player_col2:
+        st.markdown(f"<div style='text-align: center; font-size: 1.2em; font-weight: bold; margin: 8px 0;'>{st.session_state.team2_players[current_idx]}</div>", unsafe_allow_html=True)
+    
+    # Score buttons - narrower with better spacing
+    btn_col_left, btn_col1, spacer, btn_col2, btn_col_right = st.columns([0.05, 0.425, 0.05, 0.425, 0.05])
     
     with btn_col1:
         if st.button(f"➕ {st.session_state.stored_team1_name}", 
@@ -211,16 +214,11 @@ elif st.session_state.page == 'game':
             add_point(2)
             st.rerun()
     
-    # Schedule at bottom - kept small
+    # Player rotation schedule - compact at bottom
     with st.expander("📋 Schedule"):
         for i in range(4):
             status = "🟢" if i == current_idx else "⚪"
             st.markdown(f"<small>{status} R{i+1}: {st.session_state.team1_players[i]} vs {st.session_state.team2_players[i]}</small>", unsafe_allow_html=True)
-    
-    # Reset button at bottom
-    if st.button("🔄 New Game", use_container_width=True):
-        reset_game()
-        st.rerun()
 
 elif st.session_state.page == 'winner':
     # Winner Page
