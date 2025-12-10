@@ -163,18 +163,7 @@ elif st.session_state.page == 'game':
     st.write("")
     
     # Game Page
-    col_title, col_undo, col_reset = st.columns([2, 1, 1])
-    with col_title:
-        st.subheader("🏓 MLP Dreambreaker")
-    with col_undo:
-        if st.button("↩️ Undo", use_container_width=True, disabled=len(st.session_state.score_history) == 0, key="undo_btn"):
-            undo_last_point()
-            st.rerun()
-    with col_reset:
-        if st.button("🔄", use_container_width=True, key="reset_btn"):
-            reset_game()
-            st.rerun()
-            st.rerun()
+    st.subheader("🏓 MLP Dreambreaker")
     
     # Home and Away scores
     score_col1, vs_col, score_col2 = st.columns([3, 0.5, 3])
@@ -239,6 +228,18 @@ elif st.session_state.page == 'game':
             status = "🟢" if i == current_idx else "⚪"
             round_color = ["🔵", "🟢", "🟣", "🔴"][i]
             st.write(f"{status} {round_color} R{i+1}: {st.session_state.team1_players[i]} vs {st.session_state.team2_players[i]}")
+    
+    # Bottom buttons - Undo and Reset
+    st.divider()
+    col_undo, col_reset = st.columns(2)
+    with col_undo:
+        if st.button("↩️ Undo Last Point", use_container_width=True, disabled=len(st.session_state.score_history) == 0, key="undo_btn"):
+            undo_last_point()
+            st.rerun()
+    with col_reset:
+        if st.button("🔄 Reset Game", use_container_width=True, key="reset_btn"):
+            reset_game()
+            st.rerun()
 
 elif st.session_state.page == 'winner':
     # Add padding at top to avoid banner
