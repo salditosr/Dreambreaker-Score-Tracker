@@ -94,6 +94,10 @@ def add_point(team):
 st.set_page_config(page_title="MLP Dreambreaker Calculator", layout="wide")
 
 if st.session_state.page == 'setup':
+    # Add padding at top to avoid banner
+    st.write("")
+    st.write("")
+    
     # Setup Page
     st.title("🏓 MLP Dreambreaker Calculator")
     st.divider()
@@ -102,7 +106,7 @@ if st.session_state.page == 'setup':
     st.subheader("⚙️ Game Settings")
     settings_col1, settings_col2 = st.columns(2)
     with settings_col1:
-        target_score = st.number_input("Score to Play To", min_value=1, max_value=100, value=25, step=1)
+        target_score = st.number_input("Score to Play To", min_value=1, max_value=100, value=21, step=1)
     with settings_col2:
         serving_first = st.selectbox("Who Serves First?", ["Select...", "Home", "Away"])
     
@@ -146,6 +150,10 @@ if st.session_state.page == 'setup':
                 st.rerun()
 
 elif st.session_state.page == 'game':
+    # Add padding at top to avoid banner
+    st.write("")
+    st.write("")
+    
     # Game Page
     col_title, col_undo, col_reset = st.columns([2, 1, 1])
     with col_title:
@@ -224,6 +232,10 @@ elif st.session_state.page == 'game':
             st.write(f"{status} {round_color} R{i+1}: {st.session_state.team1_players[i]} vs {st.session_state.team2_players[i]}")
 
 elif st.session_state.page == 'winner':
+    # Add padding at top to avoid banner
+    st.write("")
+    st.write("")
+    
     # Winner Page
     st.balloons()
     
