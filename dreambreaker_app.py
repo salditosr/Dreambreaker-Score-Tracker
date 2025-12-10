@@ -106,7 +106,7 @@ if st.session_state.page == 'setup':
     st.subheader("⚙️ Game Settings")
     settings_col1, settings_col2 = st.columns(2)
     with settings_col1:
-        target_score = st.number_input("Score to Play To", min_value=1, max_value=100, value=21, step=1)
+        target_score = st.number_input("Score to Play To", min_value=1, max_value=100, value=25, step=1)
     with settings_col2:
         serving_first = st.selectbox("Who Serves First?", ["Select...", "Home", "Away"])
     
@@ -150,6 +150,14 @@ if st.session_state.page == 'setup':
                 st.rerun()
 
 elif st.session_state.page == 'game':
+    # Safety check - if required data doesn't exist, go back to setup
+    if ('stored_team1_name' not in st.session_state or 
+        'stored_team2_name' not in st.session_state or
+        'team1_players' not in st.session_state or
+        'team2_players' not in st.session_state):
+        st.session_state.page = 'setup'
+        st.rerun()
+    
     # Add padding at top to avoid banner
     st.write("")
     st.write("")
@@ -159,10 +167,14 @@ elif st.session_state.page == 'game':
     with col_title:
         st.subheader("🏓 MLP Dreambreaker")
     with col_undo:
-        if st.button("↩️ Undo", use_container_width=True, disabled=len(st.session_state.score_history) == 0):
+        if st.button("↩️ Undo", use_container_width=True, disabled=len(st.session_state.score_history) == 0, key="undo_btn"):
             undo_last_point()
             st.rerun()
-
+    with col_reset:
+        if st.button("🔄", use_container_width=True, key="reset_btn"):
+            reset_game()
+            st.rerun()
+            st.rerun()
     
     # Home and Away scores
     score_col1, vs_col, score_col2 = st.columns([3, 0.5, 3])
