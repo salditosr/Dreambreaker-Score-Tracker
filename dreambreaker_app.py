@@ -15,6 +15,8 @@ if 'serving_team' not in st.session_state:
     st.session_state.serving_team = 1
 if 'target_score' not in st.session_state:
     st.session_state.target_score = 21
+if 'score_history' not in st.session_state:
+    st.session_state.score_history = []
 
 def reset_game():
     """Reset all game state"""
@@ -24,6 +26,7 @@ def reset_game():
     st.session_state.points_in_current_round = 0
     st.session_state.serving_team = 1
     st.session_state.page = 'setup'
+    st.session_state.score_history = []
 
 def start_game():
     """Start the game and move to scoring page"""
@@ -32,9 +35,29 @@ def start_game():
     st.session_state.team2_score = 0
     st.session_state.current_player_index = 0
     st.session_state.points_in_current_round = 0
+    st.session_state.score_history = []
+
+def undo_last_point():
+    """Undo the last point scored"""
+    if len(st.session_state.score_history) > 0:
+        last_state = st.session_state.score_history.pop()
+        st.session_state.team1_score = last_state['team1_score']
+        st.session_state.team2_score = last_state['team2_score']
+        st.session_state.current_player_index = last_state['current_player_index']
+        st.session_state.points_in_current_round = last_state['points_in_current_round']
+        st.session_state.serving_team = last_state['serving_team']
 
 def add_point(team):
     """Add a point to the specified team and check for player rotation"""
+    # Save current state to history before making changes
+    st.session_state.score_history.append({
+        'team1_score': st.session_state.team1_score,
+        'team2_score': st.session_state.team2_score,
+        'current_player_index': st.session_state.current_player_index,
+        'points_in_current_round': st.session_state.points_in_current_round,
+        'serving_team': st.session_state.serving_team
+    })
+    
     if team == 1:
         st.session_state.team1_score += 1
     else:
@@ -150,9 +173,13 @@ if st.session_state.page == 'setup':
 
 elif st.session_state.page == 'game':
     # Game Page - Ultra condensed layout
-    col_title, col_reset = st.columns([3, 1])
+    col_title, col_undo, col_reset = st.columns([2, 1, 1])
     with col_title:
         st.markdown("<h3 style='margin: 0; font-size: 1rem; line-height: 1;'>🏓 MLP Dreambreaker</h3>", unsafe_allow_html=True)
+    with col_undo:
+        if st.button("↩️ Undo", use_container_width=True, disabled=len(st.session_state.score_history) == 0):
+            undo_last_point()
+            st.rerun()
     with col_reset:
         if st.button("🔄", use_container_width=True):
             reset_game()
