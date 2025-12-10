@@ -162,10 +162,7 @@ elif st.session_state.page == 'game':
         if st.button("↩️ Undo", use_container_width=True, disabled=len(st.session_state.score_history) == 0):
             undo_last_point()
             st.rerun()
-    with col_reset:
-        if st.button("🔄", use_container_width=True):
-            reset_game()
-            st.rerun()
+
     
     # Home and Away scores
     score_col1, vs_col, score_col2 = st.columns([3, 0.5, 3])
