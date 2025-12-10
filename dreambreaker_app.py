@@ -106,7 +106,7 @@ if st.session_state.page == 'setup':
     st.subheader("⚙️ Game Settings")
     settings_col1, settings_col2 = st.columns(2)
     with settings_col1:
-        target_score = st.number_input("Score to Play To", min_value=1, max_value=100, value=25, step=1)
+        target_score = st.number_input("Score to Play To", min_value=1, max_value=100, value=21, step=1)
     with settings_col2:
         serving_first = st.selectbox("Who Serves First?", ["Select...", "Home", "Away"])
     
