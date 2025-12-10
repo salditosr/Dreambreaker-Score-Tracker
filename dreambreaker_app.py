@@ -39,6 +39,9 @@ def start_game():
 
 def undo_last_point():
     """Undo the last point scored"""
+    # Always ensure we stay on game page
+    st.session_state.page = 'game'
+    
     if len(st.session_state.score_history) > 0:
         last_state = st.session_state.score_history.pop()
         st.session_state.team1_score = last_state['team1_score']
@@ -46,8 +49,6 @@ def undo_last_point():
         st.session_state.current_player_index = last_state['current_player_index']
         st.session_state.points_in_current_round = last_state['points_in_current_round']
         st.session_state.serving_team = last_state['serving_team']
-        # Keep the page on 'game' instead of going back to setup
-        st.session_state.page = 'game'
 
 def add_point(team):
     """Add a point to the specified team and check for player rotation"""
@@ -283,8 +284,12 @@ elif st.session_state.page == 'winner':
     
     st.markdown("<br><br>", unsafe_allow_html=True)
     
-    # New game button
+    # New game and undo buttons
     col1, col2, col3 = st.columns([1, 1, 1])
+    with col1:
+        if st.button("↩️ Undo Last Point", use_container_width=True, disabled=len(st.session_state.score_history) == 0):
+            undo_last_point()
+            st.rerun()
     with col2:
         if st.button("🔄 Start New Game", use_container_width=True, type="primary"):
             reset_game()
@@ -559,4 +564,3 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-
