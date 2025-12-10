@@ -46,6 +46,8 @@ def undo_last_point():
         st.session_state.current_player_index = last_state['current_player_index']
         st.session_state.points_in_current_round = last_state['points_in_current_round']
         st.session_state.serving_team = last_state['serving_team']
+        # Keep the page on 'game' instead of going back to setup
+        st.session_state.page = 'game'
 
 def add_point(team):
     """Add a point to the specified team and check for player rotation"""
@@ -557,3 +559,4 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
